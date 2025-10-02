@@ -22,7 +22,7 @@ public class Member extends BaseEntity {
     @Column(unique=true, nullable = false)
     private String nickname;
 
-    @Column(unique=true)
+    @Column(unique=true, nullable = false)
     private String email;
 
     private String password;
@@ -36,4 +36,11 @@ public class Member extends BaseEntity {
 
     @Setter
     private LocalDateTime deletedAt;
+
+    public Member(String username, String nickname, String email, String password) {
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.password = password;
+    }
 }
