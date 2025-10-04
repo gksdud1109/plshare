@@ -24,12 +24,12 @@ public class PlaylistItem {
     @ManyToOne(fetch = FetchType.LAZY)
     Playlist playlist;  // 소속 플레이리스트
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    TrackSource trackSource;
-
     @Column(name = "track_id",nullable = false)
     String trackId;     // 외부 트랙 ID
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "track_source", nullable = false)
+    TrackSource trackSource;
 
     @Column(nullable = false)
     String title;
@@ -40,6 +40,17 @@ public class PlaylistItem {
     @Column(nullable = false)
     String album;
 
-    @Column(name = "track_idx", nullable = false)
+    @Column(name = "track_idx", nullable = false, unique = true)
     Integer trackIdx;
+
+
+    public PlaylistItem(Playlist playlist, String title, String artist, String album, String trackId, TrackSource trackSource, int trackIdx) {
+        this.playlist = playlist;
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.trackId = trackId;
+        this.trackSource = trackSource;
+        this.trackIdx = trackIdx;
+    }
 }

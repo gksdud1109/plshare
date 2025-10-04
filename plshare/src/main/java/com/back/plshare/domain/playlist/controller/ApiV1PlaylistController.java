@@ -146,14 +146,3 @@ public class ApiV1PlaylistController {
         );
     }
 }
-
-
-/*
-GET    /playlists
-GET    /playlists/{id}
-DELETE /playlists/{id}
-
-POST   /playlists/{id}/tracks
-PUT  /playlists/{id}/tracks/{trackId}
-DELETE /playlists/{id}/tracks/{trackId}
- */
