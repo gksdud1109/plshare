@@ -1,5 +1,6 @@
 package com.back.plshare.domain.playlist.service;
 
+import com.back.plshare.domain.member.entity.Member;
 import com.back.plshare.domain.playlist.entity.Playlist;
 import com.back.plshare.domain.playlist.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,12 @@ public class PlaylistService {
 
     public void delete(Playlist playlist) {
         playlistRepository.delete(playlist);
+    }
+
+    public Playlist create(Member actor, String title, String description, String coverUrl) {
+
+        Playlist playlist = new Playlist(title, description, coverUrl, actor);
+
+        return playlistRepository.save(playlist);
     }
 }

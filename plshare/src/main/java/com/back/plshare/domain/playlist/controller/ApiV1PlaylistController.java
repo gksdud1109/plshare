@@ -1,12 +1,17 @@
 package com.back.plshare.domain.playlist.controller;
 
+import com.back.plshare.domain.member.entity.Member;
 import com.back.plshare.domain.playlist.dto.PlaylistDto;
 import com.back.plshare.domain.playlist.entity.Playlist;
 import com.back.plshare.domain.playlist.service.PlaylistService;
 import com.back.plshare.global.exception.ServiceException;
+import com.back.plshare.global.jwt.JwtRq;
 import com.back.plshare.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,7 @@ import java.util.List;
 public class ApiV1PlaylistController {
 
     private final PlaylistService playlistService;
+    private final JwtRq jwtRq;
 
     @GetMapping("/playlists")
     @Transactional(readOnly = true)
@@ -34,6 +40,40 @@ public class ApiV1PlaylistController {
                 "200-1",
                 "플레이리스트 목록 조회 성공",
                 playlists
+        );
+    }
+
+    public record CreatePlaylistReqBody(
+            @NotBlank
+            @Size(min = 4,max = 50)
+            String title,
+
+            @NotBlank
+            @Size(min = 4,max = 100)
+            String description,
+
+            @Size(max = 100)
+            String coverUrl
+    ) {
+    }
+    @PostMapping("/playlists")
+    @Operation(summary = "플레이리스트 생성")
+    public RsData<PlaylistDto> createPlaylist(
+            @RequestBody @Valid CreatePlaylistReqBody reqBody
+    ){
+        Member actor = jwtRq.getActor();
+
+        Playlist playlist = playlistService.create(
+                actor,
+                reqBody.title(),
+                reqBody.description(),
+                reqBody.coverUrl()
+        );
+
+        return new RsData<>(
+                "201-1",
+                "플레이리스트가 생성되었습니다.",
+                PlaylistDto.fromEntity(playlist)
         );
     }
 
@@ -68,8 +108,6 @@ public class ApiV1PlaylistController {
                 "플레이리스트 삭제 성공"
         );
     }
-
-
 }
 
 

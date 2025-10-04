@@ -34,4 +34,12 @@ public class Playlist extends BaseEntity {
 
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlaylistItem> playlistItems = new ArrayList<>();
+
+
+    public Playlist(String title, String description, String coverUrl, Member owner) {
+        this.title = title;
+        this.description = description;
+        this.coverUrl = coverUrl;
+        this.owner = owner;
+    }
 }
