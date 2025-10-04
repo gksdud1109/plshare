@@ -56,6 +56,11 @@ public class ApiV1MemberController {
             @Size(min = 2, max = 30)
             String password
     ){}
+    record LoginResBody(
+            MemberDto memberDto,
+            String accessToken,
+            String refreshToken
+    ){}
     @PostMapping("/login")
     @Operation(summary = "로그인")
     public RsData<MemberDto> login(
@@ -72,8 +77,10 @@ public class ApiV1MemberController {
         return new RsData(
                 "200",
                 "로그인 성공",
-                new MemberCommonResBody(
-                    new MemberDto(member)
+                new LoginResBody(
+                    new MemberDto(member),
+                        accessToken,
+                        refreshToken
                 )
         );
     }
