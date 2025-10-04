@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/customer")
 @Tag(name = "ApiV1MemberController", description = "고객정보 API")
-public class MemberController {
+public class ApiV1MemberController {
 
     private final MemberService memberService;
     private final AuthService authService;

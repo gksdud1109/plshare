@@ -3,11 +3,14 @@ package com.back.plshare.domain.playlistItem.entity;
 import com.back.plshare.domain.playlist.entity.Playlist;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(indexes = {
         @Index(name = "idx_playlist_track_order", columnList = "playlist_id, track_idx")
 })
