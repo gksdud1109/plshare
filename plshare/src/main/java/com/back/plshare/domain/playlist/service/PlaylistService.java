@@ -21,4 +21,8 @@ public class PlaylistService {
     public Optional<Playlist> findById(Long id) {
         return playlistRepository.findById(id);
     }
+
+    public void delete(Playlist playlist) {
+        playlistRepository.delete(playlist);
+    }
 }

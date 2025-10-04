@@ -3,15 +3,13 @@ package com.back.plshare.domain.playlist.controller;
 import com.back.plshare.domain.playlist.dto.PlaylistDto;
 import com.back.plshare.domain.playlist.entity.Playlist;
 import com.back.plshare.domain.playlist.service.PlaylistService;
+import com.back.plshare.global.exception.ServiceException;
 import com.back.plshare.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,20 +48,37 @@ public class ApiV1PlaylistController {
         return new RsData(
                 "200-1",
                 "플레이리스트 조회 성공",
-                playlist
+                PlaylistDto.fromEntity(playlist)
         );
     }
+
+    @DeleteMapping("/playlists/{id}")
+    @Operation(summary = "플레이리스트 삭제")
+    public RsData<Void> deletePlaylist(
+            @PathVariable Long id
+    ){
+        Playlist playlist = playlistService.findById(id).orElseThrow(()->{
+            throw new ServiceException("401-1", "플레이리스트를 찾을 수 없습니다.");
+        });
+
+        playlistService.delete(playlist);
+
+        return new RsData(
+                "200-1",
+                "플레이리스트 삭제 성공"
+        );
+    }
+
+
 }
 
 
 /*
 GET    /playlists
-POST   /playlists
 GET    /playlists/{id}
-PATCH  /playlists/{id}
 DELETE /playlists/{id}
 
 POST   /playlists/{id}/tracks
-PATCH  /playlists/{id}/tracks/{trackId}
+PUT  /playlists/{id}/tracks/{trackId}
 DELETE /playlists/{id}/tracks/{trackId}
  */

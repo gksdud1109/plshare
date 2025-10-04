@@ -9,6 +9,7 @@ public record PlaylistDto(
         String title,
         String description,
         String coverUrl,
+        String ownerUsername,
         List<PlaylistItemDto> items
 ) {
     public static PlaylistDto fromEntity(Playlist playlist) {
@@ -16,6 +17,7 @@ public record PlaylistDto(
                 playlist.getTitle(),
                 playlist.getDescription(),
                 playlist.getCoverUrl(),
+                playlist.getOwner().getUsername(),
                 playlist.getPlaylistItems().stream()
                         .map(PlaylistItemDto::fromEntity)
                         .toList()
