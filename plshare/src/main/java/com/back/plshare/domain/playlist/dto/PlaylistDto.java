@@ -6,6 +6,7 @@ import com.back.plshare.domain.playlistItem.dto.PlaylistItemDto;
 import java.util.List;
 
 public record PlaylistDto(
+        Long id,
         String title,
         String description,
         String coverUrl,
@@ -14,6 +15,7 @@ public record PlaylistDto(
 ) {
     public static PlaylistDto fromEntity(Playlist playlist) {
         return new PlaylistDto(
+                playlist.getId(),
                 playlist.getTitle(),
                 playlist.getDescription(),
                 playlist.getCoverUrl(),
