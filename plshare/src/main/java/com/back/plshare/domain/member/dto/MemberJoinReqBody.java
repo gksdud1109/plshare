@@ -7,11 +7,11 @@ import jakarta.validation.constraints.Size;
 public record MemberJoinReqBody(
 
         @NotBlank
-        @Size(min = 4,max = 30)
+        @Size(min = 4,max = 20)
         String username,
 
         @NotBlank
-        @Size(min = 4,max = 30)
+        @Size(min = 2,max = 15)
         String nickname,
 
         @NotBlank

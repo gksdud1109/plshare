@@ -34,6 +34,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private boolean deleted = false;
 
+    @Column(name = "refresh_token", length = 512)
+    private String refreshToken;
+
     @Setter
     private LocalDateTime deletedAt;
 
@@ -42,5 +45,13 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void clearRefreshToken() {
+        this.refreshToken = null;
     }
 }
