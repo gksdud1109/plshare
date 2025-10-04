@@ -45,11 +45,11 @@ public class ApiV1PlaylistController {
 
     public record CreatePlaylistReqBody(
             @NotBlank
-            @Size(min = 4,max = 50)
+            @Size(min = 4, max = 50)
             String title,
 
             @NotBlank
-            @Size(min = 4,max = 100)
+            @Size(min = 4, max = 100)
             String description,
 
             @Size(max = 100)
@@ -60,7 +60,7 @@ public class ApiV1PlaylistController {
     @Operation(summary = "플레이리스트 생성")
     public RsData<PlaylistDto> createPlaylist(
             @RequestBody @Valid CreatePlaylistReqBody reqBody
-    ){
+    ) {
         Member actor = jwtRq.getActor();
 
         Playlist playlist = playlistService.create(
@@ -96,8 +96,8 @@ public class ApiV1PlaylistController {
     @Operation(summary = "플레이리스트 삭제")
     public RsData<Void> deletePlaylist(
             @PathVariable Long id
-    ){
-        Playlist playlist = playlistService.findById(id).orElseThrow(()->{
+    ) {
+        Playlist playlist = playlistService.findById(id).orElseThrow(() -> {
             throw new ServiceException("401-1", "플레이리스트를 찾을 수 없습니다.");
         });
 
@@ -106,6 +106,43 @@ public class ApiV1PlaylistController {
         return new RsData(
                 "200-1",
                 "플레이리스트 삭제 성공"
+        );
+    }
+
+    public record UpdatePlaylistReqBody(
+            @NotBlank
+            @Size(min = 4, max = 50)
+            String title,
+
+            @NotBlank
+            @Size(min = 4, max = 100)
+            String description,
+
+            @Size(max = 100)
+            String coverUrl
+    ) {
+    }
+    @PutMapping("/playlists/{id}")
+    @Operation(summary = "플레이리스트 정보 수정")
+    public RsData<Void> updatePlaylist(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdatePlaylistReqBody reqBody
+    ){
+        Playlist playlist = playlistService.findById(id).orElseThrow(() -> new ServiceException("404-1", "플레이리스트를 찾을 수 없습니다."));
+
+        Member actor = jwtRq.getActor();
+
+        playlistService.updatePlaylistInfo(
+                playlist,
+                actor,
+                reqBody.title(),
+                reqBody.description(),
+                reqBody.coverUrl()
+        );
+
+        return new RsData(
+                "200-1",
+                "플레이리스트 수정 성공"
         );
     }
 }

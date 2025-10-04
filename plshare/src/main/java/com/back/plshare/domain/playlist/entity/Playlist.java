@@ -42,4 +42,15 @@ public class Playlist extends BaseEntity {
         this.coverUrl = coverUrl;
         this.owner = owner;
     }
+
+    public void updateInfo(String title, String description, String coverUrl){
+        if (title == null || title.length() > 50)
+            throw new IllegalArgumentException("제목은 50자 이하여야 합니다");
+        if (description == null || description.length() > 100)
+            throw new IllegalArgumentException("설명은 100자 이하여야 합니다");
+
+        this.title = title;
+        this.description = description;
+        this.coverUrl = coverUrl;
+    }
 }
