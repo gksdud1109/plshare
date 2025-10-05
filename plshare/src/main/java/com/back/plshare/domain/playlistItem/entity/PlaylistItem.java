@@ -24,8 +24,8 @@ public class PlaylistItem {
     @ManyToOne(fetch = FetchType.LAZY)
     Playlist playlist;  // 소속 플레이리스트
 
-    @Column(name = "track_id",nullable = false)
-    String trackId;     // 외부 트랙 ID
+    @Column(name = "external_track_id",nullable = false)
+    String externalTrackId;     // 외부 트랙 ID
 
     @Enumerated(EnumType.STRING)
     @Column(name = "track_source", nullable = false)
@@ -40,16 +40,16 @@ public class PlaylistItem {
     @Column(nullable = false)
     String album;
 
-    @Column(name = "track_idx", nullable = false, unique = true)
+    @Column(name = "track_idx", nullable = false)
     Integer trackIdx;
 
 
-    public PlaylistItem(Playlist playlist, String title, String artist, String album, String trackId, TrackSource trackSource, int trackIdx) {
+    public PlaylistItem(Playlist playlist, String title, String artist, String album, String externalTrackId, TrackSource trackSource, int trackIdx) {
         this.playlist = playlist;
         this.title = title;
         this.artist = artist;
         this.album = album;
-        this.trackId = trackId;
+        this.externalTrackId = externalTrackId;
         this.trackSource = trackSource;
         this.trackIdx = trackIdx;
     }

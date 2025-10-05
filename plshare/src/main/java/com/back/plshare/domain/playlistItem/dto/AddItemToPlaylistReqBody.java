@@ -15,7 +15,7 @@ public record AddItemToPlaylistReqBody(
         String album,
 
         @NotBlank
-        String trackId, // 외부 트랙 ID (e.g. YouTube ID)
+        String externalTrackIds, // 외부 트랙 ID (e.g. YouTube ID)
 
         @NotNull
         TrackSource trackSource // Enum: YOUTUBE, SPOTIFY

@@ -8,8 +8,11 @@ import com.back.plshare.global.rsData.RsData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +39,7 @@ public class ApiV1PlaylistItemController {
                 reqBody.title(),
                 reqBody.artist(),
                 reqBody.album(),
-                reqBody.trackId(),
+                reqBody.externalTrackIds(),
                 reqBody.trackSource()
         );
 
@@ -46,5 +49,22 @@ public class ApiV1PlaylistItemController {
         );
     }
 
-    // TODO: 트랙 재정렬 API(사용자가 UI에서 원하는 순서대로 재정렬하면 그에 맞춰 트랙 idx수정)
+    public record TrackReorderReqBody(
+            @NotEmpty
+            List<Long> trackIds
+    ) {}
+    @PutMapping("/playlists/{id}/tracks/reorder")
+    @Operation(summary = "플레이리스트 트랙 순서 재정렬")
+    public RsData<Void> reorderTracks(
+            @PathVariable Long id,
+            @RequestBody @Valid TrackReorderReqBody reqBody
+    ){
+        Member actor = jwtRq.getActor();
+        playlistItemService.reorderTracks(actor, id, reqBody.trackIds());
+
+        return new RsData<>(
+                "200",
+                "트랙 순서가 재정렬되었습니다."
+        );
+    }
 }

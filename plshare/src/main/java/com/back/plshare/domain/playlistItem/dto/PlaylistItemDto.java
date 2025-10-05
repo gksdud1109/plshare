@@ -7,7 +7,7 @@ public record PlaylistItemDto(
         String artist,
         String album,
         String trackSource,
-        String trackId,
+        String externalTrackId,
         int trackIdx
 ) {
     public static PlaylistItemDto fromEntity(PlaylistItem item) {
@@ -16,7 +16,7 @@ public record PlaylistItemDto(
                 item.getArtist(),
                 item.getAlbum(),
                 item.getTrackSource().name(),  // or .getExternalCode() if using value
-                item.getTrackId(),
+                item.getExternalTrackId(),
                 item.getTrackIdx()
         );
     }
